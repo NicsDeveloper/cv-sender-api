@@ -19,7 +19,7 @@ async function sendBulkEmails(emailList) {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: recipient,
-      subject: 'Seu Currículo',
+      subject: 'Currículo desenvolvedor backend pleno',
       text: 'Olá, tudo bem? Segue em anexo o meu currículo para sua avaliação. Agradeço pela oportunidade!',
       attachments: [
         {
@@ -44,7 +44,7 @@ async function scrapeEmails(url, retries = 3) {
     headers: {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     },
-    timeout: 10000
+    timeout: 40000
   };
 
   while (retries > 0) {
@@ -76,8 +76,8 @@ async function searchUrls(query) {
     console.log('Iniciando busca com a consulta:', query);
 
     const results = [];
-    const maxResults = 40;
-    const resultsPerPage = 10;
+    const maxResults = 20;
+    const resultsPerPage = 5;
 
     for (let startIndex = 1; results.length < maxResults; startIndex += resultsPerPage) {
       const response = await customsearch.cse.list({

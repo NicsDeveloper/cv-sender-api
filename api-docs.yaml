@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  title: Email Service API
+  description: API para envio de e-mails em massa, scraping de e-mails e processamento de URLs para envio de e-mails.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Servidor de desenvolvimento local
+
+paths:
+  /emails/send:
+    post:
+      summary: Enviar e-mails em massa
+      description: Envia e-mails com um currículo em anexo para uma lista de endereços de e-mail fornecida.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emailList:
+                  type: array
+                  items:
+                    type: string
+                    format: email
+                  example:
+                    - example1@example.com
+                    - example2@example.com
+      responses:
+        "200":
+          description: E-mails enviados com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: E-mails enviados com sucesso!
+        "400":
+          description: Lista de e-mails inválida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Lista de e-mails inválida
+        "500":
+          description: Erro ao enviar e-mails
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Erro ao enviar e-mails
+
+  /emails/process:
+    post:
+      summary: Processar URLs para encontrar e-mails
+      description: Processa consultas de pesquisa para encontrar URLs, realiza scraping e retorna e-mails encontrados.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  example: "currículos para desenvolvedores"
+      responses:
+        "200":
+          description: Processamento de e-mails concluído com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: email
+                example:
+                  - example1@example.com
+                  - example2@example.com
+        "400":
+          description: Consulta inválida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Consulta inválida
+        "500":
+          description: Erro ao processar URLs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Erro ao processar URLs
+
+components:
+  schemas:
+    Email:
+      type: object
+      properties:
+        address:
+          type: string
+          format: email
+    Url:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri

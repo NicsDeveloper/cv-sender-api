@@ -43,8 +43,7 @@ async function scrapeEmails(url, retries = 3) {
   const axiosOptions = {
     headers: {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-    },
-    timeout: 40000
+    }
   };
 
   while (retries > 0) {
@@ -57,7 +56,7 @@ async function scrapeEmails(url, retries = 3) {
 
       return matches ? [...new Set(matches)] : [];
     } catch (error) {
-      retries--;
+      // retries--;
       console.error(`Erro ao realizar scraping: ${error.message}. Tentando novamente... (${retries} tentativas restantes)`);
       if (retries === 0) {
         console.error('Erro ao realizar scraping:', error.message);
@@ -76,8 +75,8 @@ async function searchUrls(query) {
     console.log('Iniciando busca com a consulta:', query);
 
     const results = [];
-    const maxResults = 20;
-    const resultsPerPage = 5;
+    const maxResults = 25;
+    const resultsPerPage = 10;
 
     for (let startIndex = 1; results.length < maxResults; startIndex += resultsPerPage) {
       const response = await customsearch.cse.list({
